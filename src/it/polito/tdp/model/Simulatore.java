@@ -22,7 +22,7 @@ public class Simulatore {
 	//3. Crimine terminato
 	//	3.1 Libero l'agente
 	
-	//Strutture dati che ci servono
+	// Strutture dati che ci servono
 	private Integer malGestiti;
 	private Integer N;
 	private Integer anno;
