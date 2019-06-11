@@ -12,12 +12,16 @@ import it.polito.tdp.model.Event;
 
 public class EventsDao {
 	
-	public List<Event> listAllEvents(){
-		String sql = "SELECT * FROM events" ;
+	public List<Event> listAllEventsByDate(Integer anno, Integer mese, Integer giorno){
+		String sql = "SELECT * FROM events WHERE Year(reported_date) = ? "
+				+ "AND Month(reported_date) = ? AND Day(reported_date) = ?" ;
 		try {
 			Connection conn = DBConnect.getConnection() ;
 
 			PreparedStatement st = conn.prepareStatement(sql) ;
+			st.setInt(1, anno);
+			st.setInt(2, mese);
+			st.setInt(3, giorno);
 			
 			List<Event> list = new ArrayList<>() ;
 			
@@ -145,6 +149,32 @@ public class EventsDao {
 			conn.close();
 			return anni;
 			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null ;
+		}
+	}
+
+	public Integer getDistrettoMin(Integer anno) {
+		String sql = "select district_id " + 
+				"from events " + 
+				"where Year(reported_date) = ? " + 
+				"group by district_id " + 
+				"order by count(*) asc " + 
+				"limit 1";
+		try {
+			Connection conn = DBConnect.getConnection() ;
+			PreparedStatement st = conn.prepareStatement(sql) ;
+			st.setInt(1, anno);
+			ResultSet res = st.executeQuery() ;
+
+			if(res.next()) {
+				conn.close();
+				return res.getInt("district_id");
+			}
+			conn.close();
+			return null;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

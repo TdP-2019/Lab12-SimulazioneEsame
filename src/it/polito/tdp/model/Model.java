@@ -72,8 +72,30 @@ public class Model {
 		return this.dao.getAnni();
 	}
 	
+	public List<Integer> getMesi() {
+		List<Integer> mesi = new LinkedList<Integer>();
+		for(int i = 1; i<=12; i++)
+			mesi.add(i);
+		return mesi;
+	}
+	
+	public List<Integer> getGiorni() {
+		List<Integer> giorni = new LinkedList<Integer>();
+		for(int i = 1; i<=31; i++)
+			giorni.add(i);
+		return giorni;
+	}
+	
 	public List<Integer> getDistretti(){
 		return this.distretti;
 	}
+	
+	public int simula(Integer anno, Integer mese, Integer giorno, Integer N) {
+		Simulatore sim = new Simulatore();
+		sim.init(N, anno, mese, giorno, grafo);
+		return sim.run();
+	}
+
+	
 	
 }
